@@ -6,3 +6,4 @@ C:\Users\borna\Desktop\coding\projects\3NF.Decomposition\3NF.Decomposition.Core\
 C:\Users\borna\Desktop\coding\projects\3NF.Decomposition\3NF.Decomposition.Core\obj\Debug\netcoreapp3.1\3NF.Decomposition.Core.AssemblyInfo.cs
 C:\Users\borna\Desktop\coding\projects\3NF.Decomposition\3NF.Decomposition.Core\obj\Debug\netcoreapp3.1\3NF.Decomposition.Core.dll
 C:\Users\borna\Desktop\coding\projects\3NF.Decomposition\3NF.Decomposition.Core\obj\Debug\netcoreapp3.1\3NF.Decomposition.Core.pdb
+C:\Users\borna\Desktop\coding\projects\3NF.Decomposition\3NF.Decomposition.Core\obj\Debug\netcoreapp3.1\3NF.Decomposition.Core.csprojAssemblyReference.cache

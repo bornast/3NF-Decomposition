@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Api", "3N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Core", "3NF.Decomposition.Core\3NF.Decomposition.Core.csproj", "{4CF0C662-8150-413A-9A5A-49AAA06885CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Persistance", "3NF.Decomposition.Persistance\3NF.Decomposition.Persistance.csproj", "{92A941A5-D2BA-4684-8426-65702187C38D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Persistence", "3NF.Decomposition.Persistence\3NF.Decomposition.Persistence.csproj", "{92A941A5-D2BA-4684-8426-65702187C38D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

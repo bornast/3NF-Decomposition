@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _3NF.Decomposition.Persistance;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,7 @@ namespace _3NF.Decomposition
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddPersistence(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

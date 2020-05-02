@@ -6,7 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\3NF.Decomposition.Core\3NF.Decomposition.Core.csproj" />
+    <ProjectReference Include="..\3NF.Decomposition.Persistence\3NF.Decomposition.Persistence.csproj" />
   </ItemGroup>
 
 

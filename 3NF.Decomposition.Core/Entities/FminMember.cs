@@ -8,5 +8,6 @@
         public int LeftSideMemberId { get; set; }
         public virtual Member RightSideMember { get; set; }
         public int RightSideMemberId { get; set; }
+        public int Sequence { get; set; }
     }
 }
