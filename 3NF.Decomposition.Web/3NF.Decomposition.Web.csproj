@@ -20,5 +20,9 @@
     <ProjectReference Include="..\3NF.Decomposition.Persistence\3NF.Decomposition.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Frontend\" />
+  </ItemGroup>
+
 
 </Project>

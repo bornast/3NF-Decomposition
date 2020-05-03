@@ -31,6 +31,7 @@ namespace _3NF.Decomposition
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCore();
+            services.AddCors();
             services.AddPersistence(Configuration);
         }
 
@@ -50,6 +51,8 @@ namespace _3NF.Decomposition
             });
 
             app.UseRouting();
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

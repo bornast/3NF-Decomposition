@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Api", "3NF.Decomposition.Api\3NF.Decomposition.Api.csproj", "{59BF3005-6AE0-4E50-80BF-41D9DE30FC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Web", "3NF.Decomposition.Web\3NF.Decomposition.Web.csproj", "{59BF3005-6AE0-4E50-80BF-41D9DE30FC40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3NF.Decomposition.Core", "3NF.Decomposition.Core\3NF.Decomposition.Core.csproj", "{4CF0C662-8150-413A-9A5A-49AAA06885CE}"
 EndProject

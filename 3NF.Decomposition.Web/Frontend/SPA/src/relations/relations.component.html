@@ -1,0 +1,21 @@
+<h3 class="first">Relations</h3>
+<p-table [value]="relations">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 5%;">Id</th>
+            <th style="width: 20%;">Relation</th>
+            <th style="width: 30%;">Keys</th>
+			<th style="width: 35%;">Fmin</th>
+			<th style="width: 10%;">Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-relation>
+        <tr>
+            <td>{{relation.id}}</td>
+            <td>{{relation.relation}}</td>
+            <td>{{getKeyString(relation.keys)}}</td>
+			<td>{{relation.fmin}}</td>
+			<td style="text-align: center;"><button style="width: 80%;" pButton type="button" label="View" (click)="viewRow(relation.id)"></button></td>
+        </tr>
+    </ng-template>
+</p-table>
