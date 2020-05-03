@@ -9,5 +9,7 @@ namespace _3NF.Decomposition.Core.Interfaces
     public interface IRepository
     {
         Task<Relation> GetRelation(int relationId);
+        void Add<T>(T entity) where T : class;
+        Task SaveAsync();
     }
 }

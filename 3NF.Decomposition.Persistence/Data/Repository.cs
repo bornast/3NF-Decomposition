@@ -22,5 +22,15 @@ namespace _3NF.Decomposition.Persistance.Data
 
             return entity;
         }
+
+        public void Add<T>(T entity) where T: class
+        {
+            _context.Add(entity);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
