@@ -5,4 +5,8 @@
     <RootNamespace>_3NF.Decomposition.Core</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
+  </ItemGroup>
+
 </Project>

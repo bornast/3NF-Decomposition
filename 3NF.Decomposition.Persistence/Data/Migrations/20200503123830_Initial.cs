@@ -61,6 +61,8 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 name: "FminMembers",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RelationId = table.Column<int>(nullable: false),
                     LeftSideMemberId = table.Column<int>(nullable: false),
                     RightSideMemberId = table.Column<int>(nullable: false),
@@ -68,7 +70,7 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FminMembers", x => new { x.RelationId, x.LeftSideMemberId, x.RightSideMemberId });
+                    table.PrimaryKey("PK_FminMembers", x => new { x.Id, x.RelationId, x.LeftSideMemberId, x.RightSideMemberId, x.Sequence });
                     table.ForeignKey(
                         name: "FK_FminMembers_Members_LeftSideMemberId",
                         column: x => x.LeftSideMemberId,
@@ -117,6 +119,11 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 name: "IX_FminMembers_LeftSideMemberId",
                 table: "FminMembers",
                 column: "LeftSideMemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FminMembers_RelationId",
+                table: "FminMembers",
+                column: "RelationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FminMembers_RightSideMemberId",

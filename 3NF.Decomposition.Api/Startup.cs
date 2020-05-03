@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using _3NF.Decomposition.Core;
 using _3NF.Decomposition.Persistance;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +28,7 @@ namespace _3NF.Decomposition
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCore();
             services.AddPersistence(Configuration);
         }
 

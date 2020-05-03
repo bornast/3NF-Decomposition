@@ -2,6 +2,7 @@
 {
     public class FminMember
     {
+        public int Id { get; set; }
         public virtual Relation Relation { get; set; }
         public int RelationId { get; set; }
         public virtual Member LeftSideMember { get; set; }

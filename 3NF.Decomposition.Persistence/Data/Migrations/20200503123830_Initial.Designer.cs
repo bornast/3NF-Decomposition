@@ -9,7 +9,7 @@ using _3NF.Decomposition.Persistance.Data;
 namespace _3NF.Decomposition.Persistance.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200502185256_Initial")]
+    [Migration("20200503123830_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,6 +22,11 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
 
             modelBuilder.Entity("_3NF.Decomposition.Core.Entities.FminMember", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("RelationId")
                         .HasColumnType("int");
 
@@ -34,9 +39,11 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                     b.Property<int>("Sequence")
                         .HasColumnType("int");
 
-                    b.HasKey("RelationId", "LeftSideMemberId", "RightSideMemberId");
+                    b.HasKey("Id", "RelationId", "LeftSideMemberId", "RightSideMemberId", "Sequence");
 
                     b.HasIndex("LeftSideMemberId");
+
+                    b.HasIndex("RelationId");
 
                     b.HasIndex("RightSideMemberId");
 
@@ -141,7 +148,7 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
             modelBuilder.Entity("_3NF.Decomposition.Core.Entities.KeyMember", b =>
                 {
                     b.HasOne("_3NF.Decomposition.Core.Entities.Key", "Key")
-                        .WithMany()
+                        .WithMany("KeyMembers")
                         .HasForeignKey("KeyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

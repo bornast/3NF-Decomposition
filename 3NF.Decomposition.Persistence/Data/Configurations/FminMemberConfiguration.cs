@@ -11,7 +11,10 @@ namespace _3NF.Decomposition.Persistance.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<FminMember> builder)
         {
-            builder.HasKey(x => new { x.RelationId, x.LeftSideMemberId, x.RightSideMemberId });
+            builder.HasKey(x => new { x.Id, x.RelationId, x.LeftSideMemberId, x.RightSideMemberId, x.Sequence });
+
+            builder.Property(x => x.Id)
+                .ValueGeneratedOnAdd();
 
             builder.HasOne(x => x.Relation)
                 .WithMany()
