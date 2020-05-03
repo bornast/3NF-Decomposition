@@ -8,7 +8,9 @@ namespace _3NF.Decomposition.Core.Interfaces
 {
     public interface IDbService
     {
-        void DecomposeToThirdNormalForm(int relationId);
+        Task<IEnumerable<RelationDto>> GetRelations();
+        Task<RelationDto> GetRelation(int relationId);
         Task CreateRelation(RelationForCreationDto relationForCreation);
+        Task<string> DecomposeToThirdNormalForm(int relationId);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using _3NF.Decomposition.Core.Entities;
 using _3NF.Decomposition.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace _3NF.Decomposition.Persistance.Data
@@ -23,6 +21,11 @@ namespace _3NF.Decomposition.Persistance.Data
             return entity;
         }
 
+        public async Task<IEnumerable<Relation>> GetRelations()
+        {
+            return await _context.Relations.ToListAsync();
+        }
+
         public void Add<T>(T entity) where T: class
         {
             _context.Add(entity);
@@ -31,6 +34,6 @@ namespace _3NF.Decomposition.Persistance.Data
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-        }
+        }        
     }
 }

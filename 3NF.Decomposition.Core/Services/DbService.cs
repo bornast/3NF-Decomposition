@@ -16,7 +16,31 @@ namespace _3NF.Decomposition.Core.Services
         {
             _repo = repository;
         }
-              
+
+        public async Task<IEnumerable<RelationDto>> GetRelations()
+        {
+            var relations = await _repo.GetRelations();
+
+            var result = new List<RelationDto>();
+
+            foreach (var relation in relations)
+            {
+                result.Add(RelationDto.MapFrom(relation));
+            }
+
+            return result;
+        }        
+
+        public async Task<RelationDto> GetRelation(int relationId)
+        {
+            var relation = await _repo.GetRelation(relationId);
+
+            if (relation == null)
+                throw new Exception($"Relation id:{relationId} not found!");
+
+            return RelationDto.MapFrom(relation);
+        }       
+
         public async Task CreateRelation(RelationForCreationDto relationForCreation)
         {
             // Add relation
@@ -73,11 +97,11 @@ namespace _3NF.Decomposition.Core.Services
 
             await _repo.SaveAsync();
         }
-
-        // TODO: make async
-        public void DecomposeToThirdNormalForm(int relationId)
+        
+        // TODO: move to separate service
+        public async Task<string> DecomposeToThirdNormalForm(int relationId)
         {
-            var relation = _repo.GetRelation(relationId).Result;
+            var relation = await _repo.GetRelation(relationId);
 
             // (a) p: = {}
             var result = new List<List<Member>>();
@@ -112,7 +136,7 @@ namespace _3NF.Decomposition.Core.Services
 
             // (b) za svaku X->A e Fmin
             // go through each functional dependency
-            foreach (var functionalDependecy in fmin)
+            foreach (var functionalDependency in fmin)
             {
                 // temp variables that we will use to print the step
                 bool existingFunctionalDependency = false;
@@ -121,8 +145,8 @@ namespace _3NF.Decomposition.Core.Services
                 foreach (var resultMembers in result)
                 {
                     // Does every member from functionalDependency exist in resultMembers
-                    if (functionalDependecy.LeftSideMembers.All(x => resultMembers.Contains(x)) &&
-                        functionalDependecy.RightSideMembers.All(x => resultMembers.Contains(x))
+                    if (functionalDependency.LeftSideMembers.All(x => resultMembers.Contains(x)) &&
+                        functionalDependency.RightSideMembers.All(x => resultMembers.Contains(x))
                     ) 
                     {
                         // this functional dependency already exists in the result, so we don't need to add
@@ -135,15 +159,15 @@ namespace _3NF.Decomposition.Core.Services
 
                 // print: AB -> CD
                 var decompositionStep = $"" +
-                    $"{string.Join("", functionalDependecy.LeftSideMembers.Select(x => x.Name).ToArray())} " +
-                    $"-> {string.Join("", functionalDependecy.RightSideMembers.Select(x => x.Name).ToArray())}\t";                    
+                    $"{string.Join("", functionalDependency.LeftSideMembers.Select(x => x.Name).ToArray())} " +
+                    $"-> {string.Join("", functionalDependency.RightSideMembers.Select(x => x.Name).ToArray())}  ";                    
                 
 
                 if (existingFunctionalDependency)
                 {
                     // functional dependency already exists so print: AB is contained in ABC
                     decompositionStep += $"" +
-                        $"{ListOfMembersToString(functionalDependecy.LeftSideMembers, parentheses: false) + ListOfMembersToString(functionalDependecy.RightSideMembers, parentheses: false) }" +
+                        $"{ListOfMembersToString(functionalDependency.LeftSideMembers, parentheses: false) + ListOfMembersToString(functionalDependency.RightSideMembers, parentheses: false) }" +
                         $" is contained in " +
                         $"{ListOfMembersToString(existingFunctionalDependencyMembers, parentheses: false)}";
                 }
@@ -151,8 +175,8 @@ namespace _3NF.Decomposition.Core.Services
                 {
                     // functional dependecy doesn't exist, so print: {AB} Union {ABC}
                     var membersToAdd = new List<Member>();
-                    membersToAdd.AddRange(functionalDependecy.LeftSideMembers);
-                    membersToAdd.AddRange(functionalDependecy.RightSideMembers);
+                    membersToAdd.AddRange(functionalDependency.LeftSideMembers);
+                    membersToAdd.AddRange(functionalDependency.RightSideMembers);
 
                     decompositionStep += $"p := {ListOfListOfMembersToString(result)} Union {ListOfMembersToString(membersToAdd)}";
 
@@ -206,9 +230,9 @@ namespace _3NF.Decomposition.Core.Services
 
             // print final result: Result: p := {AB, CD, EF}..
             resultMessages.Steps.Add($"Result: p := {ListOfListOfMembersToString(result)}");
-            var test = 5;
 
-        }
+            return string.Join("\n", resultMessages.Steps);
+        }        
 
         #region ToString methods
 
