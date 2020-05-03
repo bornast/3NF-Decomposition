@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
-import { RelationsComponent } from './relations/relations.component';
+import { RelationsComponent } from './relation-list/relations.component';
+import { RelationDetailedComponent } from './relation-detailed/relation-detailed.component';
 
 export const appRoutes: Routes = [
-	{ path: '', component: RelationsComponent },	
+	{ path: '', component: RelationsComponent },
+	{ path: 'detailed/:id', component: RelationDetailedComponent },
 	// { path: 'members', component: MemberListComponent, canActivate: [AuthGuard] },
 	// { path: 'messages', component: MessagesComponent },
 	// { path: 'lists', component: ListsComponent },

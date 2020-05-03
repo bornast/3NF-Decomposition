@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Relation } from 'src/_models/relation';
 import { DbService } from 'src/_services/db.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-relations',
@@ -11,7 +12,7 @@ export class RelationsComponent implements OnInit {
 
 	relations: Relation[];
 
-	constructor(private dbService: DbService) { }
+	constructor(private dbService: DbService, private router: Router) { }
 
 	ngOnInit() {
 		this.dbService.getRelations().subscribe((result) => {
@@ -23,6 +24,7 @@ export class RelationsComponent implements OnInit {
 
 	viewRow(relationId: number) {
 		console.log("view row", relationId);
+		this.router.navigate(['/detailed/' + relationId]);
 	}
 
 	getKeyString(keys: {[keyName: string]: string}) {
@@ -32,7 +34,7 @@ export class RelationsComponent implements OnInit {
 			result += key + "=" + keys[key] + ", ";
 		});
 
-		return result.substring(0, result.length - 1);
+		return result.substring(0, result.length - 2);
 	}
 
 }

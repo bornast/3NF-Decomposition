@@ -1,0 +1,48 @@
+
+    <p-panel *ngIf="displayHtml" [header]="'Relation id:' + relation.id">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Relation:
+                </div>
+                <div class="ui-grid-col-10">
+                    <input readonly type="text" pInputText [(ngModel)]="relation.relation"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Keys:
+                </div>
+                <div class="ui-grid-col-10">
+                    <input readonly type="text" pInputText [(ngModel)]="relationKeys"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Fmin:
+                </div>
+                <div class="ui-grid-col-10">
+                    <input readonly type="text" pInputText [(ngModel)]="relation.fmin"/>
+                </div>                
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2">
+                    Actions:
+                </div>
+                <div class="ui-grid-col-4">
+					<button [disabled]="decompositionResult" pButton type="button" label="Decompose" (click)="decompose()"></button>
+				</div>
+				<div class="ui-grid-col-4">
+					<button pButton type="button" label="Cancel" (click)="cancel()"></button>
+                </div>
+			</div>
+			<div class="ui-grid-row" *ngIf="decompositionResult">
+                <div class="ui-grid-col-2">
+                    Decomposition result:
+                </div>
+                <div class="ui-grid-col-10">
+					<pre>{{ decompositionResult }}</pre>
+                </div>
+			</div>
+        </div>
+    </p-panel>

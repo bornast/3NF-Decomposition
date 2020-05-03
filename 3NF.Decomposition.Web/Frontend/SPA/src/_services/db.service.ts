@@ -20,4 +20,8 @@ export class DbService {
 	getRelation(id: number): Observable<Relation> {
 		return this.http.get<Relation>(this.baseUrl + 'GetRelation/' + id);
 	}
+
+	decompose(id: number) {
+		return this.http.get(this.baseUrl + 'DecomposeToThirdNormalForm/' + id, {responseType: 'text'});
+	}
 }
