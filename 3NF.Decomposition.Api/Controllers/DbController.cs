@@ -10,10 +10,12 @@ namespace _3NF.Decomposition.Controllers
     public class DbController: ControllerBase
     {
         private readonly IDbService _dbService;
+        private readonly IDecompositionService _decompositionService;
 
-        public DbController(IDbService dbService)
+        public DbController(IDbService dbService, IDecompositionService decompositionService)
         {
             _dbService = dbService;
+            _decompositionService = decompositionService;
         }
 
         [HttpGet("{id}")]
@@ -32,21 +34,21 @@ namespace _3NF.Decomposition.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> DecomposeToThirdNormalForm(int id)
-        {
-            var result = await _dbService.DecomposeToThirdNormalForm(id);
-
-            return Ok(result);
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateRelation([FromBody]RelationForCreationDto relationForCreation)
         {
             await _dbService.CreateRelation(relationForCreation);
 
             return Ok();
-        }        
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DecomposeToThirdNormalForm(int id)
+        {
+            var result = await _decompositionService.DecomposeToThirdNormalForm(id);
+
+            return Ok(result);
+        }               
 
     }
 }

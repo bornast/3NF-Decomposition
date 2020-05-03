@@ -11,6 +11,5 @@ namespace _3NF.Decomposition.Core.Interfaces
         Task<IEnumerable<RelationDto>> GetRelations();
         Task<RelationDto> GetRelation(int relationId);
         Task CreateRelation(RelationForCreationDto relationForCreation);
-        Task<string> DecomposeToThirdNormalForm(int relationId);
     }
 }
