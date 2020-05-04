@@ -46,15 +46,19 @@ namespace _3NF.Decomposition.Core.Services
             // Add relation
             var relation = new Relation();
 
+            _repo.Add(relation);
+
+            await _repo.SaveAsync();
+
             // Add attributes
             foreach (var attribute in relationForCreation.Attributes)
             {
                 relation.Attributes.Add(new Entities.Attribute { Name = attribute });
-            }
 
-            _repo.Add(relation);
-
-            await _repo.SaveAsync();
+                // TODO: save shouldn't be in a loop, it is implemented here so we keep the same order
+                // because ef doesn't save entities in the same order they were added
+                await _repo.SaveAsync(); 
+            }            
 
             // add keys
             foreach (var key in relationForCreation.Keys)
@@ -69,6 +73,7 @@ namespace _3NF.Decomposition.Core.Services
                 }
 
                 relation.Keys.Add(newKey);
+                await _repo.SaveAsync(); // TODO: save shouldn't be in a loop
             }
 
             // add fmin
@@ -89,13 +94,12 @@ namespace _3NF.Decomposition.Core.Services
                         };
 
                         relation.FminAttributes.Add(fmin);
-                        await _repo.SaveAsync();
+                        await _repo.SaveAsync(); // TODO: save shouldn't be in a loop
                     }                    
                 }
                 sequence += 1;
             }
 
-            await _repo.SaveAsync();
         }
 
         public async Task DeleteRelation(int relationId)
