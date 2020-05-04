@@ -29,4 +29,8 @@ export class DbService {
 		return this.http.post(this.baseUrl + 'CreateRelation/', objectToSubmit);
 	}
 
+	deleteRelation(id: number) {
+		return this.http.delete(this.baseUrl + 'DeleteRelation/' + id);
+	}
+
 }

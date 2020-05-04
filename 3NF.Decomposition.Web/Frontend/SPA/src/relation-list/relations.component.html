@@ -6,8 +6,8 @@
             <th style="width: 5%;">Id</th>
             <th style="width: 20%;">Relation</th>
             <th style="width: 30%;">Keys</th>
-			<th style="width: 35%;">Fmin</th>
-			<th style="width: 10%;">Action</th>
+			<th style="width: 30%;">Fmin</th>
+			<th style="width: 15%;">Action</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-relation>
@@ -16,7 +16,10 @@
             <td>{{relation.relation}}</td>
             <td>{{getKeyString(relation.keys)}}</td>
 			<td>{{relation.fmin}}</td>
-			<td style="text-align: center;"><button style="width: 80%;" pButton type="button" label="View" (click)="viewRow(relation.id)"></button></td>
+			<td style="text-align: center;">
+				<button style="width: 40%;" pButton type="button" label="View" (click)="viewRow(relation.id)"></button>
+				<button style="width: 40%; margin-left: 5px;" pButton type="button" label="Delete" (click)="deleteRow(relation.id)" class="ui-button-danger"></button>
+			</td>
         </tr>
     </ng-template>
 </p-table>

@@ -31,9 +31,15 @@ namespace _3NF.Decomposition.Persistance.Data
             _context.Add(entity);
         }
 
+        public void Remove<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
-        }        
+        }
+        
     }
 }

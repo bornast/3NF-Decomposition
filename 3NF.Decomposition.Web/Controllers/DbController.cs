@@ -9,19 +9,19 @@ namespace _3NF.Decomposition.Controllers
     [Route("api/[controller]/[action]")]
     public class DbController: ControllerBase
     {
-        private readonly IRelationService _dbService;
+        private readonly IRelationService _relationService;
         private readonly IDecompositionService _decompositionService;
 
         public DbController(IRelationService dbService, IDecompositionService decompositionService)
         {
-            _dbService = dbService;
+            _relationService = dbService;
             _decompositionService = decompositionService;
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRelation(int id)
         {
-            var result = await _dbService.GetRelation(id);
+            var result = await _relationService.GetRelation(id);
 
             return Ok(result);
         }
@@ -29,7 +29,7 @@ namespace _3NF.Decomposition.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRelations()
         {
-            var result = await _dbService.GetRelations();
+            var result = await _relationService.GetRelations();
 
             return Ok(result);
         }
@@ -37,7 +37,15 @@ namespace _3NF.Decomposition.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRelation([FromBody]RelationForCreationDto relationForCreation)
         {
-            await _dbService.CreateRelation(relationForCreation);
+            await _relationService.CreateRelation(relationForCreation);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRelation(int id)
+        {
+            await _relationService.DeleteRelation(id);
 
             return Ok();
         }

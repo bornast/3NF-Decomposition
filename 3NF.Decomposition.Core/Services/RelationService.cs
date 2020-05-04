@@ -97,6 +97,27 @@ namespace _3NF.Decomposition.Core.Services
 
             await _repo.SaveAsync();
         }
+
+        public async Task DeleteRelation(int relationId)
+        {
+            var relation = await _repo.GetRelation(relationId);
+            // keys
+            foreach (var key in relation.Keys)
+            {
+                _repo.Remove(key);
+            }
+
+            // fmin members
+            foreach (var fminMember in relation.FminMembers)
+            {
+                _repo.Remove(fminMember);
+            }
+
+            // relation
+            _repo.Remove(relation);
+
+            await _repo.SaveAsync();
+        }
     }
 
 }
