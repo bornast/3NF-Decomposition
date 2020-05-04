@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _3NF.Decomposition.Core.Services
 {
-    public class RelationService : IDbService
+    public class RelationService : IRelationService
     {
         private readonly IRepository _repo;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _3NF.Decomposition.Core.Interfaces
 {
-    public interface IDbService
+    public interface IRelationService
     {
         Task<IEnumerable<RelationDto>> GetRelations();
         Task<RelationDto> GetRelation(int relationId);

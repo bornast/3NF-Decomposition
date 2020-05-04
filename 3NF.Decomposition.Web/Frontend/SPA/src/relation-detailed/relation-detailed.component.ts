@@ -43,11 +43,10 @@ export class RelationDetailedComponent implements OnInit {
 	decompose() {
 		this.dbService.decompose(this.relation.id).subscribe((result) => {
 			this.decompositionResult = result;
-			console.log(this.decompositionResult);
 		}, error => {
 			console.log(error);
 			this.decompositionResult = "error!";
-		})
+		});
 	}
 
 	cancel() {

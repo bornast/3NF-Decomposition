@@ -9,10 +9,10 @@ namespace _3NF.Decomposition.Controllers
     [Route("api/[controller]/[action]")]
     public class DbController: ControllerBase
     {
-        private readonly IDbService _dbService;
+        private readonly IRelationService _dbService;
         private readonly IDecompositionService _decompositionService;
 
-        public DbController(IDbService dbService, IDecompositionService decompositionService)
+        public DbController(IRelationService dbService, IDecompositionService decompositionService)
         {
             _dbService = dbService;
             _decompositionService = decompositionService;

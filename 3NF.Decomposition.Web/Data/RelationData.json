@@ -1,0 +1,154 @@
+[
+  {
+    "members": [ "A", "B", "C", "D", "E", "F", "G" ],
+    "keys": {
+      "1": [ "A", "C", "G" ],
+      "2": [ "A", "C", "B" ],
+      "3": [ "A", "C", "E" ]
+    },
+    "fmin": [
+      {
+        "leftSideMembers": [ "A" ],
+        "rightSideMembers": [ "D" ]
+      },
+      {
+        "leftSideMembers": [ "A", "G" ],
+        "rightSideMembers": [ "B" ]
+      },
+      {
+        "leftSideMembers": [ "B" ],
+        "rightSideMembers": [ "G" ]
+      },
+      {
+        "leftSideMembers": [ "B" ],
+        "rightSideMembers": [ "E" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "B" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "F" ]
+      }
+    ]
+  },
+  {
+    "members": [ "A", "B", "C", "D", "E", "F", "G" ],
+    "keys": {
+      "1": [ "A", "G", "B" ],
+      "2": [ "A", "C", "B" ],
+      "3": [ "A", "C", "E" ]
+    },
+    "fmin": [
+      {
+        "leftSideMembers": [ "A" ],
+        "rightSideMembers": [ "D" ]
+      },
+      {
+        "leftSideMembers": [ "A", "G" ],
+        "rightSideMembers": [ "B" ]
+      },
+      {
+        "leftSideMembers": [ "B" ],
+        "rightSideMembers": [ "G" ]
+      },
+      {
+        "leftSideMembers": [ "B" ],
+        "rightSideMembers": [ "E" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "B" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "F" ]
+      }
+    ]
+  },
+  {
+    "members": [ "A", "B", "C", "D", "E", "F", "G", "I" ],
+    "keys": {
+      "1": [ "A", "C", "D" ],
+      "2": [ "A", "E", "F" ]
+    },
+    "fmin": [
+      {
+        "leftSideMembers": [ "A" ],
+        "rightSideMembers": [ "D" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "F" ]
+      },
+      {
+        "leftSideMembers": [ "G", "I" ],
+        "rightSideMembers": [ "A", "B" ]
+      },
+      {
+        "leftSideMembers": [ "C", "F" ],
+        "rightSideMembers": [ "I" ]
+      }
+    ]
+  },
+  {
+    "members": [ "A", "B", "C", "D", "E", "F", "G", "I" ],
+    "keys": {
+      "1": [ "C", "D", "A" ],
+      "2": [ "G", "F", "B" ],
+      "3": [ "A", "C", "E" ]
+    },
+    "fmin": [
+      {
+        "leftSideMembers": [ "A" ],
+        "rightSideMembers": [ "E" ]
+      },
+      {
+        "leftSideMembers": [ "E" ],
+        "rightSideMembers": [ "F" ]
+      },
+      {
+        "leftSideMembers": [ "F" ],
+        "rightSideMembers": [ "E" ]
+      },
+      {
+        "leftSideMembers": [ "F", "G" ],
+        "rightSideMembers": [ "I" ]
+      },
+      {
+        "leftSideMembers": [ "B", "C", "D" ],
+        "rightSideMembers": [ "I" ]
+      },
+      {
+        "leftSideMembers": [ "B", "D" ],
+        "rightSideMembers": [ "I" ]
+      }
+    ]
+  },
+  {
+    "members": [ "A", "B", "C", "D" ],
+    "keys": {
+      "1": [ "A", "B", "C" ],
+      "2": [ "B", "D" ]
+    },
+    "fmin": [
+      {
+        "leftSideMembers": [ "A" ],
+        "rightSideMembers": [ "B" ]
+      },
+      {
+        "leftSideMembers": [ "B", "C" ],
+        "rightSideMembers": [ "A" ]
+      },
+      {
+        "leftSideMembers": [ "D" ],
+        "rightSideMembers": [ "C", "A" ]
+      },
+      {
+        "leftSideMembers": [ "D", "B" ],
+        "rightSideMembers": [ "A", "C" ]
+      }
+    ]
+  }
+]

@@ -11,7 +11,7 @@ namespace _3NF.Decomposition.Core
     {
         public static void AddCore(this IServiceCollection services)
         {
-            services.AddScoped<IDbService, RelationService>();
+            services.AddScoped<IRelationService, RelationService>();
             services.AddScoped<IDecompositionService, DecompositionService>();
         }
     }

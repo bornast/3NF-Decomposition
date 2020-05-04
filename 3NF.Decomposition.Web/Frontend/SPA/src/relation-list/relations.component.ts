@@ -23,7 +23,6 @@ export class RelationsComponent implements OnInit {
 	}
 
 	viewRow(relationId: number) {
-		console.log("view row", relationId);
 		this.router.navigate(['/detailed/' + relationId]);
 	}
 
@@ -35,6 +34,10 @@ export class RelationsComponent implements OnInit {
 		});
 
 		return result.substring(0, result.length - 2);
+	}
+
+	addRelation() {	
+		this.router.navigate(['/create/']);	
 	}
 
 }

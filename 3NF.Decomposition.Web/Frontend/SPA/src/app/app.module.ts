@@ -14,12 +14,16 @@ import { RelationDetailedComponent } from '../relation-detailed/relation-detaile
 import { PanelModule } from 'primeng/panel';
 import { InputTextModule } from 'primeng/inputtext';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { RelationCreateComponent } from '../relation-create/relation-create.component';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
    declarations: [
       AppComponent,
       RelationsComponent,
-      RelationDetailedComponent
+      RelationDetailedComponent,
+      RelationCreateComponent
    ],
    imports: [
       BrowserModule,
@@ -27,13 +31,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
       FormsModule,
       RouterModule.forRoot(appRoutes),
       TableModule,
-	  ButtonModule,
-	  PanelModule,
-	  InputTextModule,
-	  BrowserAnimationsModule
+      ButtonModule,
+      PanelModule,
+      InputTextModule,
+	  BrowserAnimationsModule,
+	  ToastModule
    ],
    providers: [
-      DbService
+	  DbService,
+	  MessageService
    ],
    bootstrap: [
       AppComponent

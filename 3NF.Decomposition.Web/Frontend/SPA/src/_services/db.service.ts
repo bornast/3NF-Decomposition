@@ -24,4 +24,9 @@ export class DbService {
 	decompose(id: number) {
 		return this.http.get(this.baseUrl + 'DecomposeToThirdNormalForm/' + id, {responseType: 'text'});
 	}
+
+	createRelation(objectToSubmit: any) {
+		return this.http.post(this.baseUrl + 'CreateRelation/', objectToSubmit);
+	}
+
 }
