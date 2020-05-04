@@ -23,7 +23,7 @@ namespace _3NF.Decomposition.Core.Services
             var relation = await _repo.GetRelation(relationId);
 
             // (a) p: = {}
-            var result = new List<List<Member>>();
+            var result = new List<List<Entities.Attribute>>();
 
             var resultMessages = new DecompositionResultDto();
             resultMessages.Steps.Add("p := {}");
@@ -32,11 +32,11 @@ namespace _3NF.Decomposition.Core.Services
             Create anonymous object:
             {
                  Sequence: 1,
-                 LeftSideMembers: {
-                    Member1, Member2... 
+                 LeftSideAttributes: {
+                    Attribute1, Attribute2... 
                 },
-                RightSideMembers: {
-                    Member1, Member2...
+                RightSideAttributes: {
+                    Attribute1, Attribute2...
                 }
             },
             {
@@ -44,13 +44,13 @@ namespace _3NF.Decomposition.Core.Services
                 ...
             }
             */
-            var fmin = relation.FminMembers.ToList().GroupBy(
+            var fmin = relation.FminAttributes.ToList().GroupBy(
                 x => x.Sequence,
                 (key, value) => new
                 {
                     Sequence = key,
-                    LeftSideMembers = value.Select(x => x.LeftSideMember).Distinct().ToList(),
-                    RightSideMembers = value.Select(x => x.RightSideMember).Distinct().ToList()
+                    LeftSideAttributes = value.Select(x => x.LeftSideAttribute).Distinct().ToList(),
+                    RightSideAttributes = value.Select(x => x.RightSideAttribute).Distinct().ToList()
                 }).OrderBy(x => x.Sequence);
 
             // (b) za svaku X->A e Fmin
@@ -59,47 +59,47 @@ namespace _3NF.Decomposition.Core.Services
             {
                 // temp variables that we will use to print the step
                 bool existingFunctionalDependency = false;
-                List<Member> existingFunctionalDependencyMembers = new List<Member>();
-                // go through list of members in result and check if they contain this functional dependency
-                foreach (var resultMembers in result)
+                List<Entities.Attribute> existingFunctionalDependencyAttributes = new List<Entities.Attribute>();
+                // go through list of attributes in result and check if they contain this functional dependency
+                foreach (var resultAttributes in result)
                 {
-                    // Does every member from functionalDependency exist in resultMembers
-                    if (functionalDependency.LeftSideMembers.All(x => resultMembers.Contains(x)) &&
-                        functionalDependency.RightSideMembers.All(x => resultMembers.Contains(x))
+                    // Does every attribute from functionalDependency exist in resultAttributes
+                    if (functionalDependency.LeftSideAttributes.All(x => resultAttributes.Contains(x)) &&
+                        functionalDependency.RightSideAttributes.All(x => resultAttributes.Contains(x))
                     )
                     {
                         // this functional dependency already exists in the result, so we don't need to add
                         // it to the result, but store it to a temp variable so we can print this step
                         existingFunctionalDependency = true;
-                        existingFunctionalDependencyMembers = resultMembers;
+                        existingFunctionalDependencyAttributes = resultAttributes;
                         break;
                     }
                 }
 
                 // print: AB -> CD
                 var decompositionStep = $"" +
-                    $"{string.Join("", functionalDependency.LeftSideMembers.Select(x => x.Name).ToArray())} " +
-                    $"-> {string.Join("", functionalDependency.RightSideMembers.Select(x => x.Name).ToArray())}  ";
+                    $"{string.Join("", functionalDependency.LeftSideAttributes.Select(x => x.Name).ToArray())} " +
+                    $"-> {string.Join("", functionalDependency.RightSideAttributes.Select(x => x.Name).ToArray())}  ";
 
 
                 if (existingFunctionalDependency)
                 {
                     // functional dependency already exists so print: AB is contained in ABC
                     decompositionStep += $"" +
-                        $"{ListOfMembersToString(functionalDependency.LeftSideMembers, parentheses: false) + ListOfMembersToString(functionalDependency.RightSideMembers, parentheses: false) }" +
+                        $"{ListOfAttributesToString(functionalDependency.LeftSideAttributes, parentheses: false) + ListOfAttributesToString(functionalDependency.RightSideAttributes, parentheses: false) }" +
                         $" is contained in " +
-                        $"{ListOfMembersToString(existingFunctionalDependencyMembers, parentheses: false)}";
+                        $"{ListOfAttributesToString(existingFunctionalDependencyAttributes, parentheses: false)}";
                 }
                 else
                 {
                     // functional dependecy doesn't exist, so print: {AB} Union {ABC}
-                    var membersToAdd = new List<Member>();
-                    membersToAdd.AddRange(functionalDependency.LeftSideMembers);
-                    membersToAdd.AddRange(functionalDependency.RightSideMembers);
+                    var attributesToAdd = new List<Entities.Attribute>();
+                    attributesToAdd.AddRange(functionalDependency.LeftSideAttributes);
+                    attributesToAdd.AddRange(functionalDependency.RightSideAttributes);
 
-                    decompositionStep += $"p := {ListOfListOfMembersToString(result)} Union {ListOfMembersToString(membersToAdd)}";
+                    decompositionStep += $"p := {ListOfListOfAttributesToString(result)} Union {ListOfAttributesToString(attributesToAdd)}";
 
-                    result.Add(membersToAdd);
+                    result.Add(attributesToAdd);
                 }
 
                 // add the print text to list of steps
@@ -112,18 +112,18 @@ namespace _3NF.Decomposition.Core.Services
             var keys = relation.Keys;
             var keyExistsInResult = false;
 
-            foreach (var members in result)
+            foreach (var attributes in result)
             {
                 foreach (var key in keys)
                 {
-                    var keyMembers = key.KeyMembers.Select(x => x.Member);
-                    // Does every member from key exist in resultMembers
-                    if (keyMembers.All(x => members.Contains(x)))
+                    var keyAttributes = key.KeyAttributes.Select(x => x.Attribute);
+                    // Does every attribute from key exist in resultAttributes
+                    if (keyAttributes.All(x => attributes.Contains(x)))
                     {
                         // if the key already exists in the result, print: Key {AB} already exists in {ABC}
                         // raise the flag, keyExistsInResult to true
-                        var decompositionStep = $"Key {ListOfMembersToString(keyMembers, parentheses: false)}" +
-                            $" already exists in {ListOfMembersToString(members, parentheses: false)}";
+                        var decompositionStep = $"Key {ListOfAttributesToString(keyAttributes, parentheses: false)}" +
+                            $" already exists in {ListOfAttributesToString(attributes, parentheses: false)}";
                         resultMessages.Steps.Add(decompositionStep);
                         keyExistsInResult = true;
                     }
@@ -137,35 +137,35 @@ namespace _3NF.Decomposition.Core.Services
                 // add a random key to the result
                 var randomIndex = new Random().Next(keys.Count);
                 var randomKey = keys.ToArray()[randomIndex];
-                var keyMembers = randomKey.KeyMembers.Select(x => x.Member).ToList();
-                result.Add(keyMembers);
+                var keyAttributes = randomKey.KeyAttributes.Select(x => x.Attribute).ToList();
+                result.Add(keyAttributes);
 
                 // print: p := {AB, CD, EF} Union {ABC}
                 var keyStep = $"p := " +
-                    $"{ListOfListOfMembersToString(result)} Union " +
-                    $"{ListOfMembersToString(randomKey.KeyMembers.Select(x => x.Member))}";
+                    $"{ListOfListOfAttributesToString(result)} Union " +
+                    $"{ListOfAttributesToString(randomKey.KeyAttributes.Select(x => x.Attribute))}";
                 resultMessages.Steps.Add(keyStep);
             }
 
             // print final result: Result: p := {AB, CD, EF}..
-            resultMessages.Steps.Add($"Result: p := {ListOfListOfMembersToString(result)}");
+            resultMessages.Steps.Add($"Result: p := {ListOfListOfAttributesToString(result)}");
 
             return string.Join("\n", resultMessages.Steps);
         }
 
         #region ToString methods
 
-        private string ListOfListOfMembersToString(List<List<Member>> members)
+        private string ListOfListOfAttributesToString(List<List<Entities.Attribute>> attributes)
         {
-            // FORM {AB, BC, D} from { {Member, Member}, {Member, Member}, {Member} }
-            if (members.Count == 0)
+            // FORM {AB, BC, D} from { {Attribute, Attribute}, {Attribute, Attribute}, {Attribute} }
+            if (attributes.Count == 0)
                 return "{ }";
 
             var result = string.Empty;
 
-            foreach (var memberList in members)
+            foreach (var attributeList in attributes)
             {
-                result += $"{string.Join("", memberList.Select(x => x.Name).ToArray())}, ";
+                result += $"{string.Join("", attributeList.Select(x => x.Name).ToArray())}, ";
             }
 
             if (!string.IsNullOrEmpty(result))
@@ -174,14 +174,14 @@ namespace _3NF.Decomposition.Core.Services
             return $"{{{result}}}";
         }
 
-        private string ListOfMembersToString(IEnumerable<Member> members, bool parentheses = true)
+        private string ListOfAttributesToString(IEnumerable<Entities.Attribute> attributes, bool parentheses = true)
         {
-            // FORM {AB} from {Member, Member}
+            // FORM {AB} from {Attribute, Attribute}
             if (parentheses)
-                return $"{{{string.Join("", members.Select(x => x.Name).ToArray())}}}";
+                return $"{{{string.Join("", attributes.Select(x => x.Name).ToArray())}}}";
 
-            // FORM AB from {Member, Member}
-            return $"{string.Join("", members.Select(x => x.Name).ToArray())}";
+            // FORM AB from {Attribute, Attribute}
+            return $"{string.Join("", attributes.Select(x => x.Name).ToArray())}";
         }
 
         #endregion

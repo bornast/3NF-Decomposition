@@ -7,7 +7,4 @@ export const appRoutes: Routes = [
 	{ path: '', component: RelationsComponent },
 	{ path: 'detailed/:id', component: RelationDetailedComponent },
 	{ path: 'create', component: RelationCreateComponent },
-	// { path: 'members', component: MemberListComponent, canActivate: [AuthGuard] },
-	// { path: 'messages', component: MessagesComponent },
-	// { path: 'lists', component: ListsComponent },
 ];

@@ -21,8 +21,8 @@ export class RelationCreateComponent implements OnInit {
 
 	ngOnInit() {
 		let emptyFunctionalDependency: FunctionalDependency = {
-			leftSideMembers: "",
-			rightSideMembers: ""
+			leftSideAttributes: "",
+			rightSideAttributes: ""
 		};
 		this.functionalDependencies.push(emptyFunctionalDependency);
 		this.displayHtml = true;
@@ -42,27 +42,27 @@ export class RelationCreateComponent implements OnInit {
 
 	addFunctionalDependency() {
 		let newFunctionalDependency: FunctionalDependency = {
-			leftSideMembers: "",
-			rightSideMembers: ""
+			leftSideAttributes: "",
+			rightSideAttributes: ""
 		};
 		this.functionalDependencies.push(newFunctionalDependency);
 	}
 
-	updateLeftSideMembersOfFunctionalDependecy(functionalDependencyIndex: number, value: string) {		
-		this.functionalDependencies[functionalDependencyIndex].leftSideMembers = value;
+	updateLeftSideAttributesOfFunctionalDependecy(functionalDependencyIndex: number, value: string) {		
+		this.functionalDependencies[functionalDependencyIndex].leftSideAttributes = value;
 	}
 
-	updateRightSideMembersOfFunctionalDependecy(functionalDependencyIndex: number, value: string) {
-		this.functionalDependencies[functionalDependencyIndex].rightSideMembers = value;
+	updateRightSideAttributesOfFunctionalDependecy(functionalDependencyIndex: number, value: string) {
+		this.functionalDependencies[functionalDependencyIndex].rightSideAttributes = value;
 	}
 
 	save() {
 		// RELATION
 		let relationToSubmit = {};
 		
-		// MEMBERS
+		// ATTRIBUTES
 		let relationArray = this.relation.split(",").map(s => s.trim());
-		relationToSubmit["members"] = relationArray;
+		relationToSubmit["attributes"] = relationArray;
 
 		// KEYS
 		let keyIndex = 1;
@@ -76,13 +76,13 @@ export class RelationCreateComponent implements OnInit {
 		// Fmin
 		relationToSubmit["fmin"] = [];
 		this.functionalDependencies.forEach(fd => {
-			let leftFunctionalDependencyArray = fd.leftSideMembers.split(",").map(s => s.trim());
-			let rightFunctionalDependencyArray = fd.rightSideMembers.split(",").map(s => s.trim());
+			let leftFunctionalDependencyArray = fd.leftSideAttributes.split(",").map(s => s.trim());
+			let rightFunctionalDependencyArray = fd.rightSideAttributes.split(",").map(s => s.trim());
 
 			let functionalDependency = {};
 
-			functionalDependency["leftSideMembers"] = leftFunctionalDependencyArray;
-			functionalDependency["rightSideMembers"] = rightFunctionalDependencyArray;
+			functionalDependency["leftSideAttributes"] = leftFunctionalDependencyArray;
+			functionalDependency["rightSideAttributes"] = rightFunctionalDependencyArray;
 
 			relationToSubmit["fmin"].push(functionalDependency);
 		});		

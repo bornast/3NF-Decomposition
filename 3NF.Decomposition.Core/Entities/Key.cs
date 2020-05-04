@@ -8,6 +8,6 @@ namespace _3NF.Decomposition.Core.Entities
         public int Id { get; set; }
         public virtual Relation Relation { get; set; }
         public int RelationId { get; set; }
-        public virtual ICollection<KeyMember> KeyMembers { get; set; } = new List<KeyMember>();
+        public virtual ICollection<KeyAttribute> KeyAttributes { get; set; } = new List<KeyAttribute>();
     }
 }

@@ -19,6 +19,26 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Attributes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RelationId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attributes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attributes_Relations_RelationId",
+                        column: x => x.RelationId,
+                        principalTable: "Relations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Keys",
                 columns: table => new
                 {
@@ -38,127 +58,107 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "FminAttributes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RelationId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Members", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Members_Relations_RelationId",
-                        column: x => x.RelationId,
-                        principalTable: "Relations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FminMembers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RelationId = table.Column<int>(nullable: false),
-                    LeftSideMemberId = table.Column<int>(nullable: false),
-                    RightSideMemberId = table.Column<int>(nullable: false),
+                    LeftSideAttributeId = table.Column<int>(nullable: false),
+                    RightSideAttributeId = table.Column<int>(nullable: false),
                     Sequence = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FminMembers", x => new { x.Id, x.RelationId, x.LeftSideMemberId, x.RightSideMemberId, x.Sequence });
+                    table.PrimaryKey("PK_FminAttributes", x => new { x.Id, x.RelationId, x.LeftSideAttributeId, x.RightSideAttributeId, x.Sequence });
                     table.ForeignKey(
-                        name: "FK_FminMembers_Members_LeftSideMemberId",
-                        column: x => x.LeftSideMemberId,
-                        principalTable: "Members",
+                        name: "FK_FminAttributes_Attributes_LeftSideAttributeId",
+                        column: x => x.LeftSideAttributeId,
+                        principalTable: "Attributes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FminMembers_Relations_RelationId",
+                        name: "FK_FminAttributes_Relations_RelationId",
                         column: x => x.RelationId,
                         principalTable: "Relations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_FminMembers_Members_RightSideMemberId",
-                        column: x => x.RightSideMemberId,
-                        principalTable: "Members",
+                        name: "FK_FminAttributes_Attributes_RightSideAttributeId",
+                        column: x => x.RightSideAttributeId,
+                        principalTable: "Attributes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "KeyMembers",
+                name: "KeyAttributes",
                 columns: table => new
                 {
                     KeyId = table.Column<int>(nullable: false),
-                    MemberId = table.Column<int>(nullable: false)
+                    AttributeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KeyMembers", x => new { x.KeyId, x.MemberId });
+                    table.PrimaryKey("PK_KeyAttributes", x => new { x.KeyId, x.AttributeId });
                     table.ForeignKey(
-                        name: "FK_KeyMembers_Keys_KeyId",
+                        name: "FK_KeyAttributes_Attributes_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "Attributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_KeyAttributes_Keys_KeyId",
                         column: x => x.KeyId,
                         principalTable: "Keys",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_KeyMembers_Members_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FminMembers_LeftSideMemberId",
-                table: "FminMembers",
-                column: "LeftSideMemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FminMembers_RelationId",
-                table: "FminMembers",
+                name: "IX_Attributes_RelationId",
+                table: "Attributes",
                 column: "RelationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FminMembers_RightSideMemberId",
-                table: "FminMembers",
-                column: "RightSideMemberId");
+                name: "IX_FminAttributes_LeftSideAttributeId",
+                table: "FminAttributes",
+                column: "LeftSideAttributeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KeyMembers_MemberId",
-                table: "KeyMembers",
-                column: "MemberId");
+                name: "IX_FminAttributes_RelationId",
+                table: "FminAttributes",
+                column: "RelationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FminAttributes_RightSideAttributeId",
+                table: "FminAttributes",
+                column: "RightSideAttributeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KeyAttributes_AttributeId",
+                table: "KeyAttributes",
+                column: "AttributeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Keys_RelationId",
                 table: "Keys",
-                column: "RelationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Members_RelationId",
-                table: "Members",
                 column: "RelationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FminMembers");
+                name: "FminAttributes");
 
             migrationBuilder.DropTable(
-                name: "KeyMembers");
+                name: "KeyAttributes");
+
+            migrationBuilder.DropTable(
+                name: "Attributes");
 
             migrationBuilder.DropTable(
                 name: "Keys");
-
-            migrationBuilder.DropTable(
-                name: "Members");
 
             migrationBuilder.DropTable(
                 name: "Relations");

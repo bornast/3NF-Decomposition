@@ -46,10 +46,10 @@ namespace _3NF.Decomposition.Core.Services
             // Add relation
             var relation = new Relation();
 
-            // Add members
-            foreach (var member in relationForCreation.Members)
+            // Add attributes
+            foreach (var attribute in relationForCreation.Attributes)
             {
-                relation.Members.Add(new Member { Name = member });
+                relation.Attributes.Add(new Entities.Attribute { Name = attribute });
             }
 
             _repo.Add(relation);
@@ -61,11 +61,11 @@ namespace _3NF.Decomposition.Core.Services
             {
                 var newKey = new Key();
 
-                // add key members
-                foreach (var member in key.Value)
+                // add key attributes
+                foreach (var attribute in key.Value)
                 {
-                    var memberId = relation.Members.FirstOrDefault(x => x.Name == member).Id;
-                    newKey.KeyMembers.Add(new KeyMember { MemberId = memberId });
+                    var attributeId = relation.Attributes.FirstOrDefault(x => x.Name == attribute).Id;
+                    newKey.KeyAttributes.Add(new KeyAttribute { AttributeId = attributeId });
                 }
 
                 relation.Keys.Add(newKey);
@@ -73,22 +73,22 @@ namespace _3NF.Decomposition.Core.Services
 
             // add fmin
             int sequence = 1;
-            foreach (var members in relationForCreation.Fmin)
+            foreach (var attributes in relationForCreation.Fmin)
             {                
-                foreach (var leftSideMember in members.LeftSideMembers)
+                foreach (var leftSideAttribute in attributes.LeftSideAttributes)
                 {
-                    var leftMemberId = relation.Members.FirstOrDefault(x => x.Name == leftSideMember).Id;
-                    foreach (var rightSideMember in members.RightSideMembers)
+                    var leftAttributeId = relation.Attributes.FirstOrDefault(x => x.Name == leftSideAttribute).Id;
+                    foreach (var rightSideAttribute in attributes.RightSideAttributes)
                     {
-                        var rightMemberId = relation.Members.FirstOrDefault(x => x.Name == rightSideMember).Id;
-                        var fmin = new FminMember
+                        var rightAttributeId = relation.Attributes.FirstOrDefault(x => x.Name == rightSideAttribute).Id;
+                        var fmin = new FminAttribute
                         {
-                            LeftSideMemberId = leftMemberId,
-                            RightSideMemberId = rightMemberId,
+                            LeftSideAttributeId = leftAttributeId,
+                            RightSideAttributeId = rightAttributeId,
                             Sequence = sequence
                         };
 
-                        relation.FminMembers.Add(fmin);
+                        relation.FminAttributes.Add(fmin);
                         await _repo.SaveAsync();
                     }                    
                 }
@@ -107,10 +107,10 @@ namespace _3NF.Decomposition.Core.Services
                 _repo.Remove(key);
             }
 
-            // fmin members
-            foreach (var fminMember in relation.FminMembers)
+            // fmin attributes
+            foreach (var fminAttribute in relation.FminAttributes)
             {
-                _repo.Remove(fminMember);
+                _repo.Remove(fminAttribute);
             }
 
             // relation

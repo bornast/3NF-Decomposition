@@ -9,7 +9,7 @@ using _3NF.Decomposition.Persistance.Data;
 namespace _3NF.Decomposition.Persistance.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200503123830_Initial")]
+    [Migration("20200504164822_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,28 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.FminMember", b =>
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Attribute", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RelationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RelationId");
+
+                    b.ToTable("Attributes");
+                });
+
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.FminAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,24 +51,24 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                     b.Property<int>("RelationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LeftSideMemberId")
+                    b.Property<int>("LeftSideAttributeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RightSideMemberId")
+                    b.Property<int>("RightSideAttributeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Sequence")
                         .HasColumnType("int");
 
-                    b.HasKey("Id", "RelationId", "LeftSideMemberId", "RightSideMemberId", "Sequence");
+                    b.HasKey("Id", "RelationId", "LeftSideAttributeId", "RightSideAttributeId", "Sequence");
 
-                    b.HasIndex("LeftSideMemberId");
+                    b.HasIndex("LeftSideAttributeId");
 
                     b.HasIndex("RelationId");
 
-                    b.HasIndex("RightSideMemberId");
+                    b.HasIndex("RightSideAttributeId");
 
-                    b.ToTable("FminMembers");
+                    b.ToTable("FminAttributes");
                 });
 
             modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Key", b =>
@@ -67,40 +88,19 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                     b.ToTable("Keys");
                 });
 
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.KeyMember", b =>
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.KeyAttribute", b =>
                 {
                     b.Property<int>("KeyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MemberId")
+                    b.Property<int>("AttributeId")
                         .HasColumnType("int");
 
-                    b.HasKey("KeyId", "MemberId");
+                    b.HasKey("KeyId", "AttributeId");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("AttributeId");
 
-                    b.ToTable("KeyMembers");
-                });
-
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Member", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RelationId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RelationId");
-
-                    b.ToTable("Members");
+                    b.ToTable("KeyAttributes");
                 });
 
             modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Relation", b =>
@@ -115,23 +115,32 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                     b.ToTable("Relations");
                 });
 
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.FminMember", b =>
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Attribute", b =>
                 {
-                    b.HasOne("_3NF.Decomposition.Core.Entities.Member", "LeftSideMember")
+                    b.HasOne("_3NF.Decomposition.Core.Entities.Relation", "Relation")
+                        .WithMany("Attributes")
+                        .HasForeignKey("RelationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.FminAttribute", b =>
+                {
+                    b.HasOne("_3NF.Decomposition.Core.Entities.Attribute", "LeftSideAttribute")
                         .WithMany()
-                        .HasForeignKey("LeftSideMemberId")
+                        .HasForeignKey("LeftSideAttributeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("_3NF.Decomposition.Core.Entities.Relation", "Relation")
-                        .WithMany("FminMembers")
+                        .WithMany("FminAttributes")
                         .HasForeignKey("RelationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_3NF.Decomposition.Core.Entities.Member", "RightSideMember")
+                    b.HasOne("_3NF.Decomposition.Core.Entities.Attribute", "RightSideAttribute")
                         .WithMany()
-                        .HasForeignKey("RightSideMemberId")
+                        .HasForeignKey("RightSideAttributeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -145,26 +154,17 @@ namespace _3NF.Decomposition.Persistance.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.KeyMember", b =>
+            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.KeyAttribute", b =>
                 {
-                    b.HasOne("_3NF.Decomposition.Core.Entities.Key", "Key")
-                        .WithMany("KeyMembers")
-                        .HasForeignKey("KeyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("_3NF.Decomposition.Core.Entities.Member", "Member")
+                    b.HasOne("_3NF.Decomposition.Core.Entities.Attribute", "Attribute")
                         .WithMany()
-                        .HasForeignKey("MemberId")
+                        .HasForeignKey("AttributeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("_3NF.Decomposition.Core.Entities.Member", b =>
-                {
-                    b.HasOne("_3NF.Decomposition.Core.Entities.Relation", "Relation")
-                        .WithMany("Members")
-                        .HasForeignKey("RelationId")
+                    b.HasOne("_3NF.Decomposition.Core.Entities.Key", "Key")
+                        .WithMany("KeyAttributes")
+                        .HasForeignKey("KeyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

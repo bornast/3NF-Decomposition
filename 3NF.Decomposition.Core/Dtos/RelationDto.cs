@@ -15,31 +15,31 @@ namespace _3NF.Decomposition.Core.Dtos
             var relationDto = new RelationDto
             {
                 Id = relation.Id,
-                Relation = $"{{{string.Join("", relation.Members.Select(x => x.Name))}}}"
+                Relation = $"{{{string.Join("", relation.Attributes.Select(x => x.Name))}}}"
             };
 
             int i = 1;
             foreach (var key in relation.Keys)
             {
-                relationDto.Keys.Add($"K{i}", $"{string.Join("", key.KeyMembers.Select(x => x.Member.Name))}");
+                relationDto.Keys.Add($"K{i}", $"{string.Join("", key.KeyAttributes.Select(x => x.Attribute.Name))}");
                 i += 1;
             }
 
-            var fmin = relation.FminMembers.ToList().GroupBy(
+            var fmin = relation.FminAttributes.ToList().GroupBy(
                 x => x.Sequence,
                 (key, value) => new
                 {
                     Sequence = key,
-                    LeftSideMembers = value.Select(x => x.LeftSideMember).Distinct().ToList(),
-                    RightSideMembers = value.Select(x => x.RightSideMember).Distinct().ToList()
+                    LeftSideAttributes = value.Select(x => x.LeftSideAttribute).Distinct().ToList(),
+                    RightSideAttributes = value.Select(x => x.RightSideAttribute).Distinct().ToList()
                 }).OrderBy(x => x.Sequence);
 
             var functionalDependecies = new List<string>();
             foreach (var functionalDependency in fmin)
             {
                 functionalDependecies.Add($"" +
-                    $"{string.Join("", functionalDependency.LeftSideMembers.Select(x => x.Name).ToArray())} " +
-                    $"-> {string.Join("", functionalDependency.RightSideMembers.Select(x => x.Name).ToArray())}");
+                    $"{string.Join("", functionalDependency.LeftSideAttributes.Select(x => x.Name).ToArray())} " +
+                    $"-> {string.Join("", functionalDependency.RightSideAttributes.Select(x => x.Name).ToArray())}");
             }
 
             relationDto.Fmin = $"{{{string.Join(", ", functionalDependecies)}}}";

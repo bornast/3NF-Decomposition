@@ -7,11 +7,11 @@ using System.Text;
 
 namespace _3NF.Decomposition.Persistance.Data.Configurations
 {    
-    public class FminMemberConfiguration : IEntityTypeConfiguration<FminMember>
+    public class FminAttributeConfiguration : IEntityTypeConfiguration<FminAttribute>
     {
-        public void Configure(EntityTypeBuilder<FminMember> builder)
+        public void Configure(EntityTypeBuilder<FminAttribute> builder)
         {
-            builder.HasKey(x => new { x.Id, x.RelationId, x.LeftSideMemberId, x.RightSideMemberId, x.Sequence });
+            builder.HasKey(x => new { x.Id, x.RelationId, x.LeftSideAttributeId, x.RightSideAttributeId, x.Sequence });
 
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
@@ -21,15 +21,15 @@ namespace _3NF.Decomposition.Persistance.Data.Configurations
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(x => x.RightSideMember)
+                .HasOne(x => x.RightSideAttribute)
                 .WithMany()
-                .HasForeignKey(x => x.RightSideMemberId)
+                .HasForeignKey(x => x.RightSideAttributeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(x => x.LeftSideMember)
+                .HasOne(x => x.LeftSideAttribute)
                 .WithMany()
-                .HasForeignKey(x => x.LeftSideMemberId)
+                .HasForeignKey(x => x.LeftSideAttributeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
         }

@@ -7,16 +7,16 @@ using System.Text;
 
 namespace _3NF.Decomposition.Persistance.Data.Configurations
 {    
-    public class KeyMemberConfiguration : IEntityTypeConfiguration<KeyMember>
+    public class KeyAttributeConfiguration : IEntityTypeConfiguration<KeyAttribute>
     {
-        public void Configure(EntityTypeBuilder<KeyMember> builder)
+        public void Configure(EntityTypeBuilder<KeyAttribute> builder)
         {
-            builder.HasKey(x => new { x.KeyId, x.MemberId });
+            builder.HasKey(x => new { x.KeyId, x.AttributeId });
 
             builder
-                .HasOne(x => x.Member)
+                .HasOne(x => x.Attribute)
                 .WithMany()
-                .HasForeignKey(x => x.MemberId)
+                .HasForeignKey(x => x.AttributeId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace _3NF.Decomposition.Core.Entities
 {
-    public class Member
+    public class Attribute
     {
         public int Id { get; set; }
 

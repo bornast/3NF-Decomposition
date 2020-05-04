@@ -11,7 +11,7 @@ namespace _3NF.Decomposition.Persistance.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Relation> builder)
         {
-            builder.HasMany(x => x.FminMembers)
+            builder.HasMany(x => x.FminAttributes)
                 .WithOne(x => x.Relation)
                 .HasForeignKey(x => x.RelationId)
                 .IsRequired();

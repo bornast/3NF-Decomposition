@@ -14,10 +14,10 @@ namespace _3NF.Decomposition.Persistance.Data
         }
 
         public DbSet<Relation> Relations { get; set; }
-        public DbSet<Member> Members { get; set; }
+        public DbSet<Core.Entities.Attribute> Attributes { get; set; }
         public DbSet<Key> Keys { get; set; }
-        public DbSet<KeyMember> KeyMembers { get; set; }
-        public DbSet<FminMember> FminMembers { get; set; }
+        public DbSet<KeyAttribute> KeyAttributes { get; set; }
+        public DbSet<FminAttribute> FminAttributes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
