@@ -1,6 +1,4 @@
-# Project Title
-
-Third normal form decomposition project for college seminar.
+# Third normal form decomposition project for college seminar.
 
 ### Create a relational schema
 ![Screenshot_1](https://user-images.githubusercontent.com/42786810/80998217-d8880500-8e42-11ea-9689-b66dcc1b344a.png)
