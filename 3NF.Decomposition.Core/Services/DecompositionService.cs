@@ -137,14 +137,15 @@ namespace _3NF.Decomposition.Core.Services
                 // add a random key to the result
                 var randomIndex = new Random().Next(keys.Count);
                 var randomKey = keys.ToArray()[randomIndex];
-                var keyAttributes = randomKey.KeyAttributes.Select(x => x.Attribute).ToList();
-                result.Add(keyAttributes);
+                var keyAttributes = randomKey.KeyAttributes.Select(x => x.Attribute).ToList();                
 
                 // print: p := {AB, CD, EF} Union {ABC}
                 var keyStep = $"p := " +
                     $"{ListOfListOfAttributesToString(result)} Union " +
-                    $"{ListOfAttributesToString(randomKey.KeyAttributes.Select(x => x.Attribute))}";
+                    $"{ListOfAttributesToString(randomKey.KeyAttributes.Select(x => x.Attribute))}";                
                 resultMessages.Steps.Add(keyStep);
+
+                result.Add(keyAttributes);
             }
 
             // print final result: Result: p := {AB, CD, EF}..
